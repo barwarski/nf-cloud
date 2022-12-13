@@ -1,20 +1,29 @@
-FROM python:3.8.8-buster
+FROM continuumio/miniconda3
+LABEL maintainer="dirk.winkelhardt@rub.de"
 
-WORKDIR /app
+ARG USER_ID=999
+ARG GROUP_ID=999
 
-COPY ./nf_cloud /app/nf_cloud
-COPY ./nf_cloud/entrypoint.sh /app/
-COPY Pipfile /app
-COPY Pipfile.lock /app
-COPY config.yaml /app
-COPY config.production.yaml /app
+ENV USER_ID=$USER_ID
+ENV GROUP_ID=$GROUP_ID
 
-RUN apt-get update -y && apt-get install -y libev-dev \
-    && pip install --upgrade pip \
-    && pip install pipenv \
-    && pipenv install --system --skip-lock \
-    && chmod 755 ./entrypoint.sh
+WORKDIR /home/app
+# Copy macpepdb
+COPY nf_cloud_backend/ ./nf_cloud_backend
+COPY nf_cloud_backend/entrypoint.sh .
+COPY environment.yml .
 
-ENV NF_CLOUD_ENV production
+RUN apt-get update -y && apt-get install -y build-essential libev-dev postgresql-client \
+    && conda update -n base conda -c defaults \
+    && groupadd -g $GROUP_ID app \
+    && useradd -g $GROUP_ID -m -s /bin/bash -u $USER_ID app \
+    && chmod +x entrypoint.sh \
+    && chown -R app:app /home/app
 
-ENTRYPOINT [ "./entrypoint.sh" ]
+USER app
+ENV HOME /home/app
+ENV PATH $PATH:$HOME/.local/bin
+
+RUN env MAKEFLAGS="-j$(nproc)" conda env create -f environment.yml
+
+ENTRYPOINT ["conda", "run", "--no-capture-output", "--live-stream", "-n", "nf_cloud", "/home/app/entrypoint.sh" ]

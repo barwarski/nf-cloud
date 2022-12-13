@@ -4,16 +4,17 @@ import json
 from typing import Any, Dict
 
 # 3rd party imports
-from flask import Request, jsonify, redirect, Response
+from flask import Request, jsonify, redirect, Response, url_for
 from flask_login import login_user
 import requests
 
 # internal imports
-from nf_cloud_backend import openid_clients, config, app
+from nf_cloud_backend import openid_clients, app
 from nf_cloud_backend.authorization.provider_type import ProviderType
 from nf_cloud_backend.authorization.utility import Utility as AuthUtility
 from nf_cloud_backend.authorization.jwt import JWT
 from nf_cloud_backend.models.user import User
+from nf_cloud_backend.utility.configuration import Configuration
 
 
 class OpenIdConnect:
@@ -36,7 +37,8 @@ class OpenIdConnect:
             Provider config
         """
         return requests.get(
-            provider_client_config["discovery_url"]
+            provider_client_config["discovery_url"],
+            verify=provider_client_config.get("verify_ssl", True)
         ).json()
 
     @classmethod
@@ -55,11 +57,18 @@ class OpenIdConnect:
         provider_config = cls.get_autodicovery(provider_client_config)
         provider_client = openid_clients[provider]
 
+        redirect_uri: str = url_for(
+            "user_auth_callback",
+            _external = True,
+            provider_type = ProviderType.OPENID_CONNECT.value,
+            provider = provider,
+        )
+        
         # Use library to construct the request for Google login and provide
         # scopes that let you retrieve user's profile from Google
         request_uri = provider_client.prepare_request_uri(
             provider_config["authorization_endpoint"],
-            redirect_uri = request.base_url.replace("/login", "/callback"),
+            redirect_uri = redirect_uri,
             scope = [
                 provider_client_config.get("scope", "openid"),
                 "email"
@@ -109,7 +118,8 @@ class OpenIdConnect:
             auth=(
                 provider_client_config["client_id"],
                 provider_client_config["client_secret"]
-            )
+            ),
+            verify=provider_client_config.get("verify_ssl", True)
         )
 
         auth_token_data = auth_token_response.json()
@@ -128,7 +138,8 @@ class OpenIdConnect:
         userinfo = requests.get(
             uri,
             headers = headers,
-            data = body
+            data = body,
+            verify=provider_client_config.get("verify_ssl", True)
         ).json()
 
         user = User.select().where(
@@ -172,10 +183,10 @@ class OpenIdConnect:
         -------
         Response
         """
-        if config["frontend_host_url"] is None:
+        if Configuration.values()["frontend_host_url"] is None:
             return redirect(f"{request.host_url}login/callback?token={token}")
         else:
-            return redirect(f"{config['frontend_host_url']}/login/callback?token={token}")
+            return redirect(f"{Configuration.values()['frontend_host_url']}/login/callback?token={token}")
 
     # @classmethod
     # def logout(cls, user):
@@ -240,7 +251,8 @@ class OpenIdConnect:
             auth = (
                 provider_client_config["client_id"],
                 provider_client_config["client_secret"]
-            )
+            ),
+            verify=provider_client_config.get("verify_ssl", True)
         ).json()
 
         auth_token = JWT.create_auth_token(
