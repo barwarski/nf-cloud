@@ -169,6 +169,80 @@ workflows:          # Will be completely overridden by local config
         outDir:
           type: text
           value: ./
+  "QC_Workflow":
+    directory: ./test_workflows/QC_and_normalization
+    script: "main.nf"
+    nextflow_parameters:
+      - "-with-docker"
+      - "nfcore/base"
+    args:
+      dynamic:
+        Data:
+          type: path
+          desc: Single file
+          selectable_files: true
+          selectable_folders: false
+        intensityColumns:
+          type: text
+          desc: e.g. 5:54 or 1,5,6
+        logData:
+          type: text
+          value: true
+          desc: true = log data, false = no log data
+        logBase:
+          type: number
+          value: 2
+          desc: default = 2 logarithm to the base if wanted
+        normalization:
+          type: text
+          desc: nonorm, loess, quantil, median
+        useGroups:
+          type: text
+          desc: true or false
+        groupColours:
+          type: text
+          value: null
+          desc: e.g. for 2 groups with 2 different colours= red,blue
+        groupvarName:
+          type: text
+          value: Group
+          desc: column name
+        plotDevice:
+          type: text
+          value: pdf
+          desc: pdf, png, jpg, tiff
+        dpi:
+          type: number
+          value: 300
+        maxMAPlots:
+          type: number
+          value: 500
+          desc: number of maximal MAPlots you want to plot
+        plotHeight:
+          type: number
+          value: 10
+        plotWidth:
+          type: number
+          value: 15
+        xLimits:
+          type: number
+          value: 0
+          desc: default = NULL, specity x-axis limit
+        yLimits:
+          type: number
+          value: 0
+          desc: default = NULL, specity y-axis limit
+        sampleFilter:
+          type: text
+          desc: default = none, filter after sample names
+        zeroToNA:
+          type: text
+          value: true
+          desc: true or false        
+      static:
+        outDir:
+          type: text
+          value: ./
 """
     """Default configuration.
     """
