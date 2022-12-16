@@ -158,6 +158,14 @@ class ProjectsController:
         else:
             return jsonify({}), 404
 
+    @staticmethod ###hier
+    @app.route("/api/projects/<int:id>/startWorkflow", methods=["GET"])
+    @login_required
+    def startWorkflow():
+        return 5
+        #import subprocess
+        #return subprocess.run("/nf-cloud/test_workflows/QC_and_normalization/main.nf")
+
     @staticmethod
     @app.route("/api/projects/count") 
     def count():

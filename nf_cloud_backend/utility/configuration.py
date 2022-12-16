@@ -184,10 +184,11 @@ workflows:          # Will be completely overridden by local config
           selectable_folders: false
         intensityColumns:
           type: text
+          value: "5:54"
           desc: e.g. 5:54 or 1,5,6
         logData:
           type: text
-          value: true
+          value: "true"
           desc: true = log data, false = no log data
         logBase:
           type: number
@@ -195,13 +196,15 @@ workflows:          # Will be completely overridden by local config
           desc: default = 2 logarithm to the base if wanted
         normalization:
           type: text
+          value: nonorm
           desc: nonorm, loess, quantil, median
         useGroups:
           type: text
+          value: "true"
           desc: true or false
         groupColours:
           type: text
-          value: null
+          value: "null"
           desc: e.g. for 2 groups with 2 different colours= red,blue
         groupvarName:
           type: text
@@ -234,10 +237,11 @@ workflows:          # Will be completely overridden by local config
           desc: default = NULL, specity y-axis limit
         sampleFilter:
           type: text
+          value: none
           desc: default = none, filter after sample names
         zeroToNA:
           type: text
-          value: true
+          value: "true"
           desc: true or false        
       static:
         outDir:
