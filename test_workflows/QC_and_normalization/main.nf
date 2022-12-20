@@ -66,7 +66,7 @@ process QC_Workflow {
   script:
   /*If you using MacOS replace Rscript with RScript- for Linux use Rscript*/
   """
-  RScript ${rscript} ${folderpath} ${data} ${output} ${folderscript} ${columns} ${log_data} ${normalization} ${use_groups} ${group_colours} ${group_varname} ${plot_device}  ${plot_dpi} ${max_MAPlot} ${plot_height_validvalueplot} ${plot_width_validvalueplot } ${plot_height_boxplots } ${plot_width_boxplots} ${plot_height_PCA} ${plot_width_PCA} ${plot_height_MAPlot} ${plot_width_MAPlot} ${plot_xlim_PCA} ${plot_ylim_PCA} ${sample_filter} ${zero_to_NA} ${log_base} ${resultTxt}
+  Rscript ${rscript} ${folderpath} ${data} ${output} ${folderscript} ${columns} ${log_data} ${normalization} ${use_groups} ${group_colours} ${group_varname} ${plot_device}  ${plot_dpi} ${max_MAPlot} ${plot_height_validvalueplot} ${plot_width_validvalueplot } ${plot_height_boxplots } ${plot_width_boxplots} ${plot_height_PCA} ${plot_width_PCA} ${plot_height_MAPlot} ${plot_width_MAPlot} ${plot_xlim_PCA} ${plot_ylim_PCA} ${sample_filter} ${zero_to_NA} ${log_base} ${resultTxt}
   """
 }
 
