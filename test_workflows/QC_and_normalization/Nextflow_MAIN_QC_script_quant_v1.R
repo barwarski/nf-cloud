@@ -26,9 +26,12 @@ RScript_path <- as.character(args[4])
 # RScript_path <- "stat_workflows/QC_and_normalization/"
 
 ### check if output path exists
-if (!dir.exists(paste0(path, output_path))){
-  dir.create(paste0(path, output_path))
+if(!dir.exists(output_path)){
+  dir.create(output_path)
 }
+#if (!dir.exists(paste0(path, output_path))){
+#  dir.create(paste0(path, output_path))
+#}
 ###
 
 ### Specify which columns contain the peptide or protein intensities.
@@ -126,12 +129,12 @@ suffix <- normalization
 ### loading required R packages
 library(openxlsx)   ### for reading and writing xlsx files
 library(limma)      ### e.g. for normalization
-library(tidyverse)  ### tidyverse functionalities + ggplot2
+#library(tidyverse)  ### tidyverse functionalities + ggplot2
 library(scales)     ### for colours
 library(matrixStats)### e.g. for rowVars used in PCA plot function
 library(cowplot)
-library(affy)       ### for MA-Plots
-library(ggplus)     ### used in histogram function
+#library(affy)       ### for MA-Plots
+#library(ggplus)     ### used in histogram function
 library(beepr)      ### for sound after completion of MA-Plots
 
 setwd(path)
