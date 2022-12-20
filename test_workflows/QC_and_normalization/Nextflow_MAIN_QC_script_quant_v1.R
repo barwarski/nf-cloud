@@ -129,12 +129,12 @@ suffix <- normalization
 ### loading required R packages
 library(openxlsx)   ### for reading and writing xlsx files
 library(limma)      ### e.g. for normalization
-#library(tidyverse)  ### tidyverse functionalities + ggplot2
+library(tidyverse)  ### tidyverse functionalities + ggplot2
 library(scales)     ### for colours
 library(matrixStats)### e.g. for rowVars used in PCA plot function
 library(cowplot)
-#library(affy)       ### for MA-Plots
-#library(ggplus)     ### used in histogram function
+library(affy)       ### for MA-Plots
+library(ggplus)     ### used in histogram function
 library(beepr)      ### for sound after completion of MA-Plots
 
 setwd(path)
@@ -150,7 +150,7 @@ source(paste0(RScript_path, "automatedNormalization_v1_3.R"))
 ################################################################################
 #### read in data file
 
-output_path <- paste0(path, output_path)
+#output_path <- paste0(path, output_path)
 
 print(171)
 
