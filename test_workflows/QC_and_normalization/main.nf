@@ -1,11 +1,11 @@
 #!usr/bin/env nextflow
 nextflow.enable.dsl=2
 
-rscript = '/home/barwariaw/Code//nf-cloud/test_workflows/QC_and_normalization/Nextflow_MAIN_QC_script_quant_v1.R'
-params.folderpath = "/home/barwariaw/Code//nf-cloud/test_workflows/QC_and_normalization/"
-params.data = "/home/barwariaw/Code//nf-cloud/sSHT_proteinGroups_Intensities.xlsx" 
-params.output = "/home/barwariaw/Code//nf-cloud/test_workflows/QC_and_normalization/" 
-params.folderscript = "/home/barwariaw/Code//nf-cloud/test_workflows/QC_and_normalization/Scripts"
+rscript = '/home/barwariaw/Code/nf-cloud/test_workflows/QC_and_normalization/Nextflow_MAIN_QC_script_quant_v1.R'
+params.folderpath = "/home/barwariaw/Code/nf-cloud/test_workflows/QC_and_normalization/"
+params.data = "/home/barwariaw/Code/nf-cloud/uploads/13/sSHT_proteinGroups_Intensities.xlsx" 
+params.output = "/home/barwariaw/Code/nf-cloud/test_workflows/QC_and_normalization/" 
+params.folderscript = "/home/barwariaw/Code/nf-cloud/test_workflows/QC_and_normalization/Scripts"
 params.columns = "5:54"
 params.logdata = true
 params.normalization = "nonorm"
@@ -28,7 +28,7 @@ params.plotylimPCA = 0
 params.samplefilter = "none"
 params.zerotoNA = true
 params.logbase = 2
-params.resultTXT = "/home/barwariaw/Code//nf-cloud/test_workflows/QC_and_normalization/MA_message.txt"
+params.resultTXT = "/home/barwariaw/Code/nf-cloud/test_workflows/QC_and_normalization/MA_message.txt"
 
 
 process QC_Workflow {
