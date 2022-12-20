@@ -1,7 +1,7 @@
 #!usr/bin/env nextflow
 nextflow.enable.dsl=2
 
-rscript = '/home/barwariaw/Code/nf-cloud/test_workflows/QC_and_normalization/Nextflow_MAIN_QC_script_quant_v1.R'
+rscript = 'Nextflow_MAIN_QC_script_quant_v1.R'
 params.folderpath = "/home/barwariaw/Code/nf-cloud/test_workflows/QC_and_normalization/"
 params.data = "/home/barwariaw/Code/nf-cloud/uploads/13/sSHT_proteinGroups_Intensities.xlsx" 
 params.output = "/home/barwariaw/Code/nf-cloud/test_workflows/QC_and_normalization/" 
