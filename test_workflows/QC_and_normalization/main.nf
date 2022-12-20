@@ -3,8 +3,8 @@ nextflow.enable.dsl=2
 
 rscript = '/nf-cloud/test_workflows/QC_and_normalization/Nextflow_MAIN_QC_script_quant_v1.R'
 params.folderpath = "/nf-cloud/test_workflows/QC_and_normalization/"
-params.data = "/sSHT_proteinGroups_Intensities.xlsx" ### check
-params.output = "/QC_sSHT_proteinGroups_Intensities/" ### check
+params.data = "/nf-cloud/sSHT_proteinGroups_Intensities.xlsx" ### check
+params.output = "/nf-cloud/test_workflows/QC_and_normalization/" ### check
 params.folderscript = "/nf-cloud/test_workflows/QC_and_normalization/Scripts"
 params.columns = "5:54"
 params.logdata = true
@@ -28,7 +28,7 @@ params.plotylimPCA = 0
 params.samplefilter = "none"
 params.zerotoNA = true
 params.logbase = 2
-params.resultTXT = "MA_message.txt"
+params.resultTXT = "/nf-cloud/test_workflows/QC_and_normalization/MA_message.txt"
 
 
 process QC_Workflow {
