@@ -3,8 +3,8 @@ nextflow.enable.dsl=2
 
 rscript = '/nf-cloud/test_workflows/QC_and_normalization/Nextflow_MAIN_QC_script_quant_v1.R'
 params.folderpath = "/nf-cloud/test_workflows/QC_and_normalization/"
-params.data = "/nf-cloud/sSHT_proteinGroups_Intensities.xlsx" ### check
-params.output = "/nf-cloud/test_workflows/QC_and_normalization/" ### check
+params.data = "/nf-cloud/sSHT_proteinGroups_Intensities.xlsx" 
+params.output = "/nf-cloud/test_workflows/QC_and_normalization/" 
 params.folderscript = "/nf-cloud/test_workflows/QC_and_normalization/Scripts"
 params.columns = "5:54"
 params.logdata = true
