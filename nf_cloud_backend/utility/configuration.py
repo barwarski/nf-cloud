@@ -169,7 +169,7 @@ workflows:          # Will be completely overridden by local config
         outDir:
           type: text
           value: ./
-  "QC_Workflow":
+  "QC_and_normalization":
     directory: ./test_workflows/QC_and_normalization
     script: "main.nf"
     nextflow_parameters:
