@@ -3,7 +3,9 @@
         <div v-if="project && !project_not_found">
             <div class="d-flex justify-content-between align-items-center">
                 <h1>Project "{{ project.name }}"</h1>
-                <button @click="showStartDialog" :disabled="project.is_scheduled || !workflows.includes(project.workflow)" class="btn btn-success btn-sm">
+                <button @click="startScript" :disabled="project.is_scheduled || !workflows.includes(project.workflow)" class="btn btn-success btn-sm">
+                <!--<button @click="showStartDialog" :disabled="project.is_scheduled || !workflows.includes(project.workflow)" class="btn btn-success btn-sm">-->
+    
                     Start project
                     <i class="fas fa-play"></i>
                 </button>
@@ -96,7 +98,29 @@
                                 save
                             </button>
                         </div>
-                        <div :class="{active: current_tab == tabs.result}" class="tab-pane" role="tabpanel"> reslt:222 </div>
+                        <div :class="{active: current_tab == tabs.result}" class="tab-pane" role="tabpanel">
+                            <h3>{{ resultText }}</h3>
+                            <h6> For this Workflow: {{ this.project.workflow }}</h6>
+                            <p>keys:  {{  this.inputUser }}</p>
+                            <p> {{ this.project.workflow_arguments["Data"].value }}</p>
+                            <p> {{ this.project.workflow_arguments["dpi"].value }}</p>
+                            <p> {{ this.project.workflow_arguments["groupColours"].value }}</p>
+                            <p> {{ this.project.workflow_arguments["groupvarName"].value }}</p>
+                            <p> {{ this.project.workflow_arguments["intensityColumns"].value }}</p>
+                            <p> {{ this.project.workflow_arguments["logBase"].value }}</p>
+                            <p> {{ this.project.workflow_arguments["logData"].value }}</p>
+                            <p> {{ this.project.workflow_arguments["maxMAPlots"].value }}</p>
+                            <p> {{ this.project.workflow_arguments["normalization"].value }}</p>
+                            <p> {{ this.project.workflow_arguments["plotDevice"].value }}</p>
+                            <p> {{ this.project.workflow_arguments["plotHeight"].value }}</p>
+                            <p> {{ this.project.workflow_arguments["plotWidth"].value }}</p>
+                            <p> {{ this.project.workflow_arguments["sampleFilter"].value }}</p>
+                            <p> {{ this.project.workflow_arguments["useGroups"].value }}</p>
+                            <p> {{ this.project.workflow_arguments["xLimits"].value }}</p>
+                            <p> {{ this.project.workflow_arguments["yLimits"].value }}</p>
+                            <p> {{ this.project.workflow_arguments["zeroToNA"].value }}</p>
+                            
+                        </div>
                     </div> 
                 </div>
                 <!-- tabs ende--> 
@@ -168,6 +192,7 @@ export default {
             workflows: [],
             show_workflow_dropdown: false,
             current_tab: TABS.workflow,
+            resultText: "Results:",
             /**
              * Event bus for communication with child components.
              */
@@ -283,6 +308,30 @@ export default {
         setWorkflow(workflow){
             this.project.workflow = workflow
             this.getDynamicWorkflowArguments()
+            this.getScript()
+            this.getDirectory()
+        },
+        getUserInput(){
+            var inputuser = " "
+            for( const [key, val] of Object.entries(this.project.workflow_arguments)){
+                var vali = this.project.workflow_arguments[String(key)].value
+                inputuser += vali + "$"//` ${vali} `//this.project.workflow_arguments[key]//.value
+            }
+            return String(inputuser)
+        },
+        // run main.nf script @app.route("/api/workflows/<string:workflow>/<string:script>/runScript")
+        startScript(){
+            this.inputUser = this.getUserInput()
+            fetch(`${this.$config.nf_cloud_backend_base_url}/api/workflows/${this.project.workflow}/${this.project.script}/runScript`, {
+            }).then(response => {
+                if(response.ok) {
+                    response.json().then(data => {
+                        this.resultText = "hat geklappt"
+                    })
+                } else {
+                    this.handleUnknownResponse(response)
+                }
+            })
         },
         /**
          * Sets a nee value to the workflow argument
@@ -312,6 +361,30 @@ export default {
                 if(response.ok) {
                     response.json().then(data => {
                         this.project.workflow_arguments = data.arguments
+                    })
+                } else {
+                    this.handleUnknownResponse(response)
+                }
+            })
+        },
+        getScript(){
+            fetch(`${this.$config.nf_cloud_backend_base_url}/api/workflows/${this.project.workflow}/script`, {
+            }).then(response => {
+                if(response.ok) {
+                    response.json().then(data => {
+                        this.project.script = data.script
+                    })
+                } else {
+                    this.handleUnknownResponse(response)
+                }
+            })
+        },
+        getDirectory(){
+            fetch(`${this.$config.nf_cloud_backend_base_url}/api/workflows/${this.project.workflow}/directory`, {
+            }).then(response => {
+                if(response.ok) {
+                    response.json().then(data => {
+                        this.project.directory = data.directory
                     })
                 } else {
                     this.handleUnknownResponse(response)

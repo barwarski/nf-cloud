@@ -37,3 +37,51 @@ class WorkflowControllers:
         return jsonify({
             "arguments": Configuration.values()["workflows"][workflow]["args"]["dynamic"]
         })
+
+    @staticmethod
+    @app.route("/api/workflows/<string:workflow>/script")
+    def script(workflow: str):
+        """
+        Returns
+        -------
+        JSON where each key is the name of a workflow argument with value type definition and description.
+        """
+        return jsonify({
+            "script": Configuration.values()["workflows"][workflow]["script"]
+        })
+    
+    @staticmethod
+    @app.route("/api/workflows/<string:workflow>/directory")
+    def directory(workflow: str):
+        """
+        Returns
+        -------
+        JSON where each key is the name of a workflow argument with value type definition and description.
+        """
+        return jsonify({
+            "directory": Configuration.values()["workflows"][workflow]["directory"]
+        })
+
+    @staticmethod
+    @app.route("/api/workflows/<string:workflow>/<string:script>/runScript")
+    def runScript(workflow: str, script: str):
+        """
+        Returns
+        -------
+        JSON where each key is the name of a workflow argument with value type definition and description.
+        """
+        mess = "-"
+        try:
+            #script laufen
+            import subprocess
+            dir = "~/Code/nf-cloud/test_workflows"
+            mainScript = dir + "/" + workflow + "/" + script
+            subprocess.run(f"nextflow {mainScript} ", shell=True)
+            mess = "successfully "
+        except Exception:
+            mess = Exception
+        #else:
+        #    mess = "something else gone wrong " + str(scriptPath)
+        return jsonify({
+            "run main.nf": mess
+        })
