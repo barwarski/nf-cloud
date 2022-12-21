@@ -21,7 +21,7 @@ Boxplots <- function(X, groupvar_name = "Group", sample_filter = NULL,
 
   ## filtering of samples
   if (!is.null(sample_filter)) {
-  X <- X %>% filter(name %in% sample_filter)
+  X <- X %>% dplyr::filter(name %in% sample_filter)
   }
 
   if (use_groups) {

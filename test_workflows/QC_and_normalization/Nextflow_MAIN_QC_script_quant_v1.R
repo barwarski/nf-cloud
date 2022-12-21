@@ -130,11 +130,11 @@ suffix <- normalization
 library(openxlsx)   ### for reading and writing xlsx files
 library(limma)      ### e.g. for normalization
 library(tidyverse)  ### tidyverse functionalities + ggplot2
+library(tidyr)      ### pivot_longer function
 library(scales)     ### for colours
 library(matrixStats)### e.g. for rowVars used in PCA plot function
 library(cowplot)
 library(affy)       ### for MA-Plots
-library(ggplus)     ### used in histogram function
 library(beepr)      ### for sound after completion of MA-Plots
 
 setwd(path)
@@ -143,16 +143,11 @@ source(paste0(RScript_path, "PCA_plot_v1_3.R"))
 source(paste0(RScript_path, "MA_Plots_v1_3_nextflow.R"))
 source(paste0(RScript_path, "ValidValue_Plot_v1_3.R"))
 source(paste0(RScript_path, "Boxplot_v1_3.R"))
-source(paste0(RScript_path, "Histograms_v1_3.R"))
 source(paste0(RScript_path, "automatedNormalization_v1_3.R"))
 
 
 ################################################################################
 #### read in data file
-
-#output_path <- paste0(path, output_path)
-
-print(171)
 
 D <- read.xlsx(data_path, na.strings = na_strings)
 
@@ -207,13 +202,13 @@ Boxplots(X = D_long, groupvar_name = groupvar_name, sample_filter = sample_filte
          plot_device = plot_device, group_colours = group_colours,
          plot_height = plot_height_boxplots, plot_width = plot_width_boxplots,
          plot_dpi = plot_dpi, log_data = FALSE, log_base = log_base,
-         suffix = suffix, method = "boxplot")
+         suffix = suffix, method = "boxplot", output_path = output_path)
 
 Boxplots(X = D_long, groupvar_name = groupvar_name, sample_filter = sample_filter,
          plot_device = plot_device, group_colours = group_colours,
          plot_height = plot_height_boxplots, plot_width = plot_width_boxplots,
          plot_dpi = plot_dpi, log_data = FALSE, log_base = log_base,
-         suffix = suffix, method = "violinplot")
+         suffix = suffix, method = "violinplot", output_path = output_path)
 
 
 ################################################################################

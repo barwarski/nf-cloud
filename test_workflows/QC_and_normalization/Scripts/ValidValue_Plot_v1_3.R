@@ -15,12 +15,12 @@ ValidValuePlot <- function(X, groupvar_name = "Group", sample_filter=NULL,
 
   # filter data set for samples defined in sample_filter
   if (!is.null(sample_filter)) {
-    X <- X %>% filter(name %in% sample_filter)
+    X <- X %>% dplyr::filter(name %in% sample_filter)
   }
 
   X <- X %>% group_by(name, group) %>% summarize(nrvalid = sum(!is.na(value)), meanvalid = mean(!is.na(value)), .groups = 'drop')
 
-  write.xlsx(x = X, file = paste0(output_path, "validvalues_", suffix, ".xlsx"), overwrite = TRUE, keepNA = TRUE)
+  #write.xlsx(x = X, file = paste0(output_path, "validvalues_", suffix, ".xlsx"), overwrite = TRUE, keepNA = TRUE)
 
 
   pl_valid_values <- ggplot(X) +

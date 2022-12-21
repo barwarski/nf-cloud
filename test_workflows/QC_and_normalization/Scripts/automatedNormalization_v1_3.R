@@ -42,7 +42,7 @@ automatedNormalization <- function(DATA, DATA.name = deparse(substitute(DATA)),
     }
 
     tryCatch(expr = {
-      write.xlsx(x = DATA_norm_2, file = paste0(output_path, DATA.name, "_", suffix, ".xlsx"), keepNA = TRUE)
+      #write.xlsx(x = DATA_norm_2, file = paste0(output_path, DATA.name, "_", suffix, ".xlsx"), keepNA = TRUE)
       message("Normalized data successfully saved!")},
       error = function(err) {
         # error handler picks up where error was generated
@@ -50,7 +50,7 @@ automatedNormalization <- function(DATA, DATA.name = deparse(substitute(DATA)),
         beepr::beep(sound = 10)
         user_input <- readline(prompt = paste0("+++ Do you want to overwrite ", paste0(DATA.name,"_",method,".xlsx"), "? +++ [yes/no] "))
         if(user_input == "yes"){
-          write.xlsx(x = DATA_norm_2, file = paste0(output_path, DATA.name,"_",suffix,".xlsx"), overwrite = TRUE, keepNA = TRUE)
+          #write.xlsx(x = DATA_norm_2, file = paste0(output_path, DATA.name,"_",suffix,".xlsx"), overwrite = TRUE, keepNA = TRUE)
           message("Normalized data successfully saved!")
         } else {
           message("Overwriting of normalized data failed. Please allow overwriting, remove the data file or choose different normalization method!")
@@ -62,7 +62,7 @@ automatedNormalization <- function(DATA, DATA.name = deparse(substitute(DATA)),
     if (length(id_columns) >= 1 ) {
       DATA_norm_2 <- cbind(id_columns, DATA_norm)
     }
-    write.xlsx(x = DATA_norm_2, file = paste0(output_path, DATA.name, "_", suffix, ".xlsx"), overwrite = TRUE, keepNA = TRUE)
+    #write.xlsx(x = DATA_norm_2, file = paste0(output_path, DATA.name, "_", suffix, ".xlsx"), overwrite = TRUE, keepNA = TRUE)
   }
 
   return(DATA_norm)
