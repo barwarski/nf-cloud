@@ -97,7 +97,7 @@
                             </button>
                         </div>
                         <div :class="{active: current_tab == tabs.result}" class="tab-pane" role="tabpanel"> 
-                            <p>all folders : {{ this.imagesUrl }}</p>
+                            <p>all folders : </p>
                             <ImageViewer></ImageViewer>
                         </div>
                     </div> 
@@ -418,21 +418,6 @@ export default {
         },
         tabs(){
             return TABS
-        },
-        imagesUrl : function(){
-            //const fs = require('fs')            
-            var url = "~/Code/nf_cloud/results/QC_and_normalization/"
-            var imageList = [url+"PCA_plot_nonorm.pdf", url+"PCA_plot_nonorm_labelled.pdf"]
-            
-            //var imageList = require.context(url)
-            /*fs.readdir(url, (err, files) => {
-                if(err){
-                    imageList.push(err)
-                }else{
-                    imageList.push(files)
-                }
-            })*/
-            return imageList
         }
     }
 }
