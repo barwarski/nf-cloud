@@ -96,7 +96,10 @@
                                 save
                             </button>
                         </div>
-                        <div :class="{active: current_tab == tabs.result}" class="tab-pane" role="tabpanel"> reslt:222 </div>
+                        <div :class="{active: current_tab == tabs.result}" class="tab-pane" role="tabpanel"> 
+                            <p>all folders : {{ this.imagesUrl }}</p>
+                            <ImageViewer></ImageViewer>
+                        </div>
                     </div> 
                 </div>
                 <!-- tabs ende--> 
@@ -144,6 +147,7 @@
 
 <script>
 import Vue from "vue"
+import ImageViewer from '../../../components/ImageViewer.vue'
 
 const RELOAD_WORKFLOW_FILES_EVENT = "RELOAD_WORKFLOW_FILES"
 const DELETE_CONFIRMATION_DIALOG_ID = "delete_confirmation_dialog"
@@ -159,6 +163,7 @@ const TABS = {
 }
 
 export default {
+  components: { ImageViewer },
     data(){
         return {
             project: null,
@@ -411,6 +416,21 @@ export default {
         },
         tabs(){
             return TABS
+        },
+        imagesUrl : function(){
+            //const fs = require('fs')            
+            var url = "~/Code/nf_cloud/results/QC_and_normalization/"
+            var imageList = [url+"PCA_plot_nonorm.pdf", url+"PCA_plot_nonorm_labelled.pdf"]
+            
+            //var imageList = require.context(url)
+            /*fs.readdir(url, (err, files) => {
+                if(err){
+                    imageList.push(err)
+                }else{
+                    imageList.push(files)
+                }
+            })*/
+            return imageList
         }
     }
 }
