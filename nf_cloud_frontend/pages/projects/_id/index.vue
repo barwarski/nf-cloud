@@ -148,6 +148,8 @@
 <script>
 import Vue from "vue"
 import ImageViewer from '../../../components/ImageViewer.vue'
+//import 'viewerjs/dist/viewer.css'
+//import VueViewer from 'v-viewer';
 
 const RELOAD_WORKFLOW_FILES_EVENT = "RELOAD_WORKFLOW_FILES"
 const DELETE_CONFIRMATION_DIALOG_ID = "delete_confirmation_dialog"
