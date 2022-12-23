@@ -112,12 +112,8 @@
                             <p> {{ this.project.workflow_arguments["maxMAPlots"].value }}</p>
                             <p> {{ this.project.workflow_arguments["normalization"].value }}</p>
                             <p> {{ this.project.workflow_arguments["plotDevice"].value }}</p>
-                            <p> {{ this.project.workflow_arguments["plotHeight"].value }}</p>
-                            <p> {{ this.project.workflow_arguments["plotWidth"].value }}</p>
                             <p> {{ this.project.workflow_arguments["sampleFilter"].value }}</p>
                             <p> {{ this.project.workflow_arguments["useGroups"].value }}</p>
-                            <p> {{ this.project.workflow_arguments["xLimits"].value }}</p>
-                            <p> {{ this.project.workflow_arguments["yLimits"].value }}</p>
                             <p> {{ this.project.workflow_arguments["zeroToNA"].value }}</p>
                             
                         </div>
