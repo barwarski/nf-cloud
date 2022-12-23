@@ -221,17 +221,35 @@ workflows:          # Will be completely overridden by local config
           type: number
           value: 500
           desc: number of maximal MAPlots you want to plot
-        plotHeight:
+        validValueHeight:
           type: number
           value: 10
-        plotWidth:
+        validValueWidth:
           type: number
           value: 15
-        xLimits:
+        boxplotHeight:
+          type: number
+          value: 10
+        boxplotWidth:
+          type: number
+          value: 15
+        pcaHeight:
+          type: number
+          value: 15
+        pcaWidth:
+          type: number
+          value: 20
+        maHeight:
+          type: number
+          value: 15
+        maWidth:
+          type: number
+          value: 15
+        xLimitsPCA:
           type: number
           value: 0
           desc: default = NULL, specity x-axis limit
-        yLimits:
+        yLimitsPCA:
           type: number
           value: 0
           desc: default = NULL, specity y-axis limit

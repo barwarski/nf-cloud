@@ -43,7 +43,7 @@ ValidValuePlot <- function(X, groupvar_name = "Group", sample_filter=NULL,
   if (!is.null(ylim)) pl_valid_values <- pl_valid_values + ylim(ylim)
   if (!is.null(title)) pl_valid_values <- pl_valid_values + ggtitle(title)
 
-  ggsave(paste0(output_path,"valid_value_plot_", suffix,".",plot_device),
+  ggsave(paste0(output_path,"Validvalue_plot_", suffix,".",plot_device),
          plot = pl_valid_values, device = plot_device,
          height = plot_height, width = plot_width, dpi = plot_dpi)
 
@@ -64,7 +64,7 @@ ValidValuePlot <- function(X, groupvar_name = "Group", sample_filter=NULL,
 
   if (!is.null(title)) pl_valid_values <- pl_valid_values + ggtitle(title)
 
-  ggsave(paste0(output_path, "valid_values_percentage_plot_",suffix,".",plot_device),
+  ggsave(paste0(output_path, "Validvalues_percentage_plot_",suffix,".",plot_device),
          device = plot_device,height = plot_height,width = plot_width,
          plot = pl_valid_values_rel, dpi = plot_dpi)
 

@@ -6,28 +6,28 @@ params.folderpath = "~/Code/nf-cloud/test_workflows/QC_and_normalization/"
 params.data = "~/Code/nf-cloud/uploads/13/sSHT_proteinGroups_Intensities.xlsx" 
 params.output = "~/Code/nf-cloud/results/QC_and_normalization/" 
 params.folderscript = "~/Code/nf-cloud/test_workflows/QC_and_normalization/Scripts/"
-params.columns = "5:54"
-params.logdata = true
+params.intensityColumns = "5:54"
+params.logData = true
 params.normalization = "nonorm"
-params.usegroups = true
-params.groupcolours = "null"
-params.groupvarname = "Group"
-params.plotdevice = "pdf"
-params.plotdpi = 300
+params.useGroups = true
+params.groupColours = "null"
+params.groupvarName = "Group"
+params.plotDevice = "pdf"
+params.dpi = 300
 params.maxMAPlot = 7000
-params.plotheightvalidvalueplot = 10
-params.plotwidthvalidvalueplot  = 15
-params.plotheightboxplots = 10
-params.plotwidthboxplots  = 15
-params.plotheightPCA = 15
-params.plotwidthPCA  = 20
-params.plotheightMAPlot = 15
-params.plotwidthMAPlot  = 15
-params.plotxlimPCA = 0
-params.plotylimPCA = 0
-params.samplefilter = "none"
-params.zerotoNA = true
-params.logbase = 2
+params.validvalueHeight = 10
+params.validvalueWidth  = 15
+params.boxplotHeight = 10
+params.boxplotWidth  = 15
+params.pcaHeight  = 15
+params.pcaWidth = 20
+params.maHeight = 15
+params.maWidth  = 15
+params.xlimitsPCA = 0
+params.ylimitsPCA = 0
+params.sampleFilter = "none"
+params.zeroToNA = true
+params.logBase = 2
 params.resultTXT = "~/Code/nf-cloud/results/QC_and_normalization/MA_message.txt"
 
 
@@ -43,7 +43,7 @@ process QC_Workflow {
     val normalization
     val use_groups
     val group_colours
-    val group_varname
+    val group_varname 
     val plot_device
     val plot_dpi
     val max_MAPlot
@@ -71,7 +71,7 @@ process QC_Workflow {
 }
 
 workflow{
-  QC_Workflow(rscript, params.folderpath, params.data, params.output, params.folderscript, params.columns, params.logdata, params.normalization, params.usegroups, params.groupcolours, params.groupvarname, params.plotdevice, params.plotdpi, params.maxMAPlot, params.plotheightvalidvalueplot, params.plotwidthvalidvalueplot, params.plotheightboxplots, params.plotwidthboxplots, params.plotheightPCA, params.plotwidthPCA, params.plotheightMAPlot, params.plotwidthMAPlot, params.plotxlimPCA, params.plotylimPCA, params.samplefilter, params.zerotoNA, params.logbase, params.resultTXT)
+  QC_Workflow(rscript, params.folderpath, params.data, params.output, params.folderscript, params.intensityColumns, params.logData, params.normalization, params.useGroups, params.groupColours, params.groupvarName, params.plotDevice, params.dpi, params.maxMAPlot, params.validvalueHeight, params.validvalueWidth, params.boxplotHeight, params.boxplotWidth, params.pcaHeight, params.pcaWidth, params.maHeight, params.maWidth, params.xlimitsPCA, params.ylimitsPCA, params.sampleFilter, params.zeroToNA, params.logBase, params.resultTXT)
 }
 
 
