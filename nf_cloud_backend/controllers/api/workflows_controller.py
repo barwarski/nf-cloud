@@ -74,14 +74,26 @@ class WorkflowControllers:
         try:
             #script laufen
             import subprocess
-            dir = "~/Code/nf-cloud/test_workflows"
-            mainScript = dir + "/" + workflow + "/" + script
-            subprocess.run(f"nextflow {mainScript} ", shell=True)
-            mess = "successfully "
+            from pathlib import Path
+
+            directoryPath = str(Path.cwd()) 
+            directoryPath = directoryPath.replace("/nf_cloud_backend/controllers/api/workflows_controller.py","/nf_cloud/")
+            dataPath = directoryPath + "/uploads/" #+ data
+            workflowPath = directoryPath + "/test_workflows/" + workflow + "/"
+            outputPath = directoryPath + "/results/" + workflow + "/" 
+            scriptPath = workflowPath + "/Scripts/"
+            nextflowScript = directoryPath + "/test_workflows/" + workflow + "/" + script #dir + workflow + "/" + script
+            subprocess.run(f"nextflow {nextflowScript} --output /home/barwariaw/Schreibtisch/", shell=True)
+            mess = "successfully run script on " + nextflowScript # + "\n directoryPath: " + directoryPath + " \n datapath: " + dataUrl
         except Exception:
             mess = Exception
-        #else:
-        #    mess = "something else gone wrong " + str(scriptPath)
+        #http://localhost:3001/api/workflows/QC_and_normalization/main.nf/runScript
         return jsonify({
-            "run main.nf": mess
+            "run main.nf": mess,
+            "directoryPath": directoryPath,
+            "dataPath": dataPath,
+            "outputPath": outputPath,
+            "workflowPath": workflowPath,
+            "scriptPath": scriptPath,
+            "Nextflow Script": nextflowScript 
         })
