@@ -518,4 +518,38 @@ class ProjectsController:
             response.headers["Content-Disposition"] = f"attachment; filename={project.name}--{path.replace('/', '+')}.zip"
             return response
 
+    @staticmethod
+    @app.route("/api/projects/<int:w_id>/download-without-login")
+    def download_without_login(w_id: int):
+        """
+        Downloads a file or folder.
+        If path is a folder the response is a zip package.
+        E.g. www.bar.org/api/projects/<int:w_id>/download-without-login?path="./path-to-file"
 
+        Parameters
+        ----------
+        w_id : int
+            Project ID
+        path : strs
+            Path to folder or file.
+        """
+        project = Project.get(Project.id == w_id)
+        if project is None:
+            return "", 404
+        path = unquote(request.args.get('path', "", type=str))
+        path_to_download = project.get_path(path)
+        if not path_to_download.exists():
+            return "", 404
+        elif path_to_download.is_file():
+            return send_file(path_to_download, as_attachment=True)
+        else:
+            def build_stream():
+                    stream = zipstream.ZipFile(mode='w', compression=zipstream.ZIP_DEFLATED)
+                    project_path_len = len(str(project.file_directory))
+                    for path in path_to_download.glob("**/*"):
+                        if path.is_file():
+                            stream.write(path, arcname=str(path)[project_path_len:])    # Remove absolut path before project subfolder, including project id
+                    yield from stream
+            response = Response(build_stream(), mimetype='application/zip')
+            response.headers["Content-Disposition"] = f"attachment; filename={project.name}--{path.replace('/', '+')}.zip"
+            return response

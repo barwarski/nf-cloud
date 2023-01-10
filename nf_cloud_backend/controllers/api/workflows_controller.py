@@ -63,12 +63,17 @@ class WorkflowControllers:
         })
 
     @staticmethod
+    @app.route("/api/workflows/<string:workflow>/result_definition")
+    def result_definition(workflow: str):
+        return jsonify(Configuration.values()["workflows"][workflow]["results"])
+
+    @staticmethod
     @app.route("/api/workflows/<string:workflow>/<string:script>/runScript")
     def runScript(workflow: str, script: str):
         """
         Returns
         -------
-        JSON where each key is the name of a workflow argument with value type definition and description.
+        Arguments
         """
         mess = "-"
         try:
@@ -83,6 +88,8 @@ class WorkflowControllers:
             outputPath = directoryPath + "/results/" + workflow + "/" 
             scriptPath = workflowPath + "/Scripts/"
             nextflowScript = directoryPath + "/test_workflows/" + workflow + "/" + script #dir + workflow + "/" + script
+            workflow_args = "h"
+
             subprocess.run(f"nextflow {nextflowScript} --output /home/barwariaw/Schreibtisch/", shell=True)
             mess = "successfully run script on " + nextflowScript # + "\n directoryPath: " + directoryPath + " \n datapath: " + dataUrl
         except Exception:
@@ -95,5 +102,6 @@ class WorkflowControllers:
             "outputPath": outputPath,
             "workflowPath": workflowPath,
             "scriptPath": scriptPath,
-            "Nextflow Script": nextflowScript 
+            "Nextflow Script": nextflowScript ,
+            "Workflow_arguments": workflow_args
         })
