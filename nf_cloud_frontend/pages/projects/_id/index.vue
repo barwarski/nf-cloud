@@ -101,25 +101,18 @@
                         <div :class="{active: current_tab == tabs.result}" class="tab-pane" role="tabpanel">
                             <h3>{{ resultText }}</h3>
                             <h6> For this Workflow: {{ this.project.workflow }}</h6>
-                            <p>keys:  {{  this.inputUser }}</p>
-                            <p> {{ this.project.workflow_arguments["Data"].value }}</p>
-                            <p> {{ this.project.workflow_arguments["dpi"].value }}</p>
-                            <p> {{ this.project.workflow_arguments["groupColours"].value }}</p>
-                            <p> {{ this.project.workflow_arguments["groupvarName"].value }}</p>
-                            <p> {{ this.project.workflow_arguments["intensityColumns"].value }}</p>
-                            <p> {{ this.project.workflow_arguments["logBase"].value }}</p>
-                            <p> {{ this.project.workflow_arguments["logData"].value }}</p>
-                            <p> {{ this.project.workflow_arguments["maxMAPlots"].value }}</p>
-                            <p> {{ this.project.workflow_arguments["normalization"].value }}</p>
-                            <p> {{ this.project.workflow_arguments["plotDevice"].value }}</p>
-                            <p> {{ this.project.workflow_arguments["sampleFilter"].value }}</p>
-                            <p> {{ this.project.workflow_arguments["useGroups"].value }}</p>
-                            <p> {{ this.project.workflow_arguments["zeroToNA"].value }}</p>
-                            
+                            <p> definitions: {{ this.project.resultDefinition }}</p>
+                            <p> {{ this.project.id}}</p>
                         </div>
                     </div> 
                 </div>
                 <!-- tabs ende--> 
+            </div>
+            <div class="row">
+                <div class="col">
+                    <!--<img src="http://localhost:3001/api/projects/3/download-without-login?path=test.png" width="100" height="100"></img>
+                    <img src="http://localhost:3001/api/projects/3/download-without-login?path=PCA_plot_nonorm_imputed_labelled.pdf"></img>-->
+                </div>
             </div>
             <h2>Files</h2>
             <EditableFileBrowser 
@@ -306,18 +299,10 @@ export default {
             this.getDynamicWorkflowArguments()
             this.getScript()
             this.getDirectory()
-        },
-        getUserInput(){
-            var inputuser = " "
-            for( const [key, val] of Object.entries(this.project.workflow_arguments)){
-                var vali = this.project.workflow_arguments[String(key)].value
-                inputuser += vali + "$"//` ${vali} `//this.project.workflow_arguments[key]//.value
-            }
-            return String(inputuser)
+            this.getProjectResultDefinition()
         },
         // run main.nf script @app.route("/api/workflows/<string:workflow>/<string:script>/runScript")
-        startScript(){
-            this.inputUser = this.getUserInput()
+        startScript(){            
             fetch(`${this.$config.nf_cloud_backend_base_url}/api/workflows/${this.project.workflow}/${this.project.script}/runScript`, {
             }).then(response => {
                 if(response.ok) {
@@ -381,6 +366,18 @@ export default {
                 if(response.ok) {
                     response.json().then(data => {
                         this.project.directory = data.directory
+                    })
+                } else {
+                    this.handleUnknownResponse(response)
+                }
+            })
+        },
+        getProjectResultDefinition(){ 
+            fetch(`${this.$config.nf_cloud_backend_base_url}/api/workflows/${this.project.workflow}/result_definition`, {
+            }).then(response => {
+                if(response.ok) {
+                    response.json().then(data => {
+                        this.project.resultDefinition = data
                     })
                 } else {
                     this.handleUnknownResponse(response)
