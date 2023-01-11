@@ -76,7 +76,7 @@ MAPlots <- function(X, log = TRUE, alpha = FALSE, suffix="nonorm",
     
     pb <- txtProgressBar(min = 0,max = number_plots,char = "#",style = 3)
     
-    pdf(paste0(output_path, "MA_Plots_", suffix, ".pdf"), height = plot_height/2.54, width = plot_width/2.54)
+    pdf(paste0(output_path, "MA_Plots", ".pdf"), height = plot_height/2.54, width = plot_width/2.54)
     
     for(i in 1:(ncol(X)-1)) {
       for (j in (i + 1):ncol(X)) {

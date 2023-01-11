@@ -221,7 +221,7 @@ PCA_Plot(X = D, id = id, groupvar1 = group, groupvar2 = NULL, groupvar1_name = g
          impute = FALSE, impute_method = "mean", propNA = 0,
          point.size = 4, base_size = 20,
          returnPCA = FALSE, title = NULL,
-         output_path = output_path, suffix = suffix,
+         output_path = output_path, suffix = "",
          ylim = plot_ylim_PCA, xlim = plot_xlim_PCA, PCx = 1, PCy = 2)
 
 PCA_Plot(X = D, id = id, groupvar1 = group, groupvar2 = NULL, groupvar1_name = groupvar_name, groupvar2_name = NULL,
@@ -231,7 +231,7 @@ PCA_Plot(X = D, id = id, groupvar1 = group, groupvar2 = NULL, groupvar1_name = g
          impute = FALSE, impute_method = "mean", propNA = 0,
          point.size = 4, base_size = 20,
          returnPCA = FALSE, title = NULL,
-         output_path = output_path, suffix = paste0(suffix, "_labelled"),
+         output_path = output_path, suffix = paste0("_labelled"),
          ylim = plot_ylim_PCA, xlim = plot_xlim_PCA, label = TRUE, PCx = 1, PCy = 2,
          label_size = 4)
 
@@ -244,7 +244,7 @@ PCA_Plot(X = D, id = id, groupvar1 = group, groupvar2 = NULL,
          impute = TRUE, impute_method = "mean", propNA = 0.5,
          point.size = 4, base_size = 20,
          returnPCA = FALSE, title = NULL,
-         output_path = output_path, suffix = paste0(suffix, "_imputed_labelled"),
+         output_path = output_path, suffix = paste0("_imputed_labelled"),
          ylim = plot_ylim_PCA, xlim = plot_xlim_PCA, label = TRUE, PCx = 1, PCy = 2,
          label_size = 4)
 

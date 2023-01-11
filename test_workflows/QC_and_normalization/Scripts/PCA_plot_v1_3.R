@@ -149,7 +149,7 @@ PCA_Plot <- function(X, id, log_data = TRUE, log_base = 2,
 
   #print(pl)
 
-  ggsave(paste0(output_path, "PCA_plot_", suffix, ".", plot_device),
+  ggsave(paste0(output_path, "PCA_plot", suffix, ".", plot_device),
          device = plot_device, plot = pl, dpi = plot_dpi, height = plot_height,
          width = plot_width, units = "cm")
 

@@ -45,7 +45,7 @@ Boxplots <- function(X, groupvar_name = "Group", sample_filter = NULL,
   }
 
 
-  ggsave(paste0(output_path, method, "_", suffix, ".", plot_device), device = plot_device, height = plot_height,
+  ggsave(paste0(output_path, method, ".", plot_device), device = plot_device, height = plot_height,
          width = plot_width, plot = pl_boxplot, dpi = plot_dpi)
 
   return(pl_boxplot)
