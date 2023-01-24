@@ -14,6 +14,13 @@ from nf_cloud_backend import app, socketio, db_wrapper as db
 from nf_cloud_backend.models.project import Project
 from nf_cloud_backend.utility.configuration import Configuration
 
+# import
+import base64
+import urllib.request
+from PIL import Image
+import io
+from pdf2image import convert_from_path, convert_from_bytes
+import requests
 class ProjectsController:
     """
     Controller for project endpoints.
@@ -481,6 +488,53 @@ class ProjectsController:
                 to=f"project{project.id}"
             )
         return "", 200
+    @staticmethod
+    @app.route("/api/projects/<int:w_id>/<string:filename>/convert-to-base64-png")
+    #@login_required
+    def convert_to_base64_png(w_id: int, filename: str):
+        """
+        Convert PDFs and Tiffs to Base64 for reading in Image viewer
+
+        Parameters
+        ----------
+        w_id : int
+            Project ID
+        filename : str
+            Path to file.
+        """
+        req_url = request.base_url
+        URL = "http://localhost:" + str(request.server[1]) + "/api/projects/" + str(w_id) + "/download-without-login?path=" + filename
+        #URL = 'http://www.w3schools.com/css/trolltunga.jpg'
+
+        new_rl = filename.split(".")
+        
+        if new_rl[1] == "pdfd":
+            with urllib.request.urlopen(URL) as url:
+                
+                f = url.read()
+                encoded_string = base64.b64encode(f).decode("ascii")
+                im = Image.open(io.BytesIO(base64.b64decode(encoded_string)))
+                
+                im.save(new_rl[0] + ".png", 'PNG') #
+            #encoded_string = open(src,"rb").read().encode("base64")
+            return jsonify({
+                        "encoded": {
+                            (im)
+                        }
+                    })
+        else:
+            pdf = requests.get(URL, stream=True)
+            images = convert_from_bytes(pdf.raw.read())
+            print(URL)
+            for i in range(len(images)):
+                # Save pages as images in the pdf
+                images[i].save(new_rl[0] +'.png', 'PNG')
+            return jsonify({
+                        "encoded": "successfully",
+                        "url" : request.server,
+                        "url2" : request.base_url
+                    })
+
 
     @staticmethod
     @app.route("/api/projects/<int:w_id>/download")
@@ -533,7 +587,7 @@ class ProjectsController:
         path : strs
             Path to folder or file.
         """
-        project = Project.get(Project.id == w_id)
+        project = Project.get_or_none(Project.id == w_id)
         if project is None:
             return "", 404
         path = unquote(request.args.get('path', "", type=str))
@@ -553,3 +607,4 @@ class ProjectsController:
             response = Response(build_stream(), mimetype='application/zip')
             response.headers["Content-Disposition"] = f"attachment; filename={project.name}--{path.replace('/', '+')}.zip"
             return response
+    

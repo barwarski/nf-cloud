@@ -1,9 +1,21 @@
+<style>
+* {
+  box-sizing: border-box;
+}
+
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 5px;
+}
+
+</style>
 <template>
     <div>
         <div v-if="project && !project_not_found">
             <div class="d-flex justify-content-between align-items-center">
                 <h1>Project "{{ project.name }}"</h1>
-                <button @click="startScript" :disabled="project.is_scheduled || !workflows.includes(project.workflow)" class="btn btn-success btn-sm">
+                <button @click="showStartDialog" :disabled="project.is_scheduled || !workflows.includes(project.workflow)" class="btn btn-success btn-sm">
                 <!--<button @click="showStartDialog" :disabled="project.is_scheduled || !workflows.includes(project.workflow)" class="btn btn-success btn-sm">-->
     
                     Start project
@@ -99,10 +111,16 @@
                             </button>
                         </div>
                         <div :class="{active: current_tab == tabs.result}" class="tab-pane" role="tabpanel">
-                            <h3>{{ resultText }}</h3>
-                            <h6> For this Workflow: {{ this.project.workflow }}</h6>
-                            <p> definitions: {{ this.project.resultDefinition }}</p>
-                            <p> {{ this.project.id}}</p>
+                            <div>
+                                <ImageInteractiveVue :plottype="Test" :filepath="nine" :projectId="project.id"></ImageInteractiveVue>
+                            </div>
+                            <template v-for="value,name in this.project.resultDefinition">
+                                <div :key="name">
+                                <ImageGallery      v-if="value['type'] == 'image-gallery'"      :plottype="name" :filepath="value['path']" :projectId="project.id"></ImageGallery>
+                                <ImageSingle       v-if="value['type'] == 'image'"              :plottype="name" :filepath="value['path']" :projectId="project.id"></ImageSingle>
+                                <ImageInteractive  v-if="value['type'] == 'interactive-plot'"  :plottype="name" :filepath="value['path']" :projectId="project.id"></ImageInteractive>
+                                </div>
+                            </template>
                         </div>
                     </div> 
                 </div>
@@ -110,7 +128,7 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <!--<img src="http://localhost:3001/api/projects/3/download-without-login?path=test.png" width="100" height="100"></img>
+                    <!--<img src="http://localhost:3001/api/projects/7/download-without-login?path=test.png" width="100" height="100"></img>
                     <img src="http://localhost:3001/api/projects/3/download-without-login?path=PCA_plot_nonorm_imputed_labelled.pdf"></img>-->
                 </div>
             </div>
@@ -157,6 +175,12 @@
 
 <script>
 import Vue from "vue"
+import ImageGallery from '../../../components/ImageGallery.vue'
+import ImageSingle from "../../../components/ImageSingle.vue"
+import {readFileSync} from 'fs';
+import {convert} from 'imagemagick-convert';
+import postscribe from 'postscribe'
+import ImageInteractive from "../../../components/ImageInteractive.vue";
 
 const RELOAD_WORKFLOW_FILES_EVENT = "RELOAD_WORKFLOW_FILES"
 const DELETE_CONFIRMATION_DIALOG_ID = "delete_confirmation_dialog"
@@ -172,6 +196,7 @@ const TABS = {
 }
 
 export default {
+  components: { ImageGallery, ImageSingle, ImageInteractive },
     data(){
         return {
             project: null,
@@ -211,6 +236,7 @@ export default {
                 if(response.ok) {
                     response.json().then(response_data => {
                         this.project = response_data.project
+                        this.project.resultDefinition = 0
                         this.bindWorkflowArgumentChangeEvent()
                         this.connectToProjectSocketIoRoom()
                     })
@@ -300,6 +326,7 @@ export default {
             this.getScript()
             this.getDirectory()
             this.getProjectResultDefinition()
+            this.getResultPaths()
         },
         // run main.nf script @app.route("/api/workflows/<string:workflow>/<string:script>/runScript")
         startScript(){            
@@ -378,11 +405,20 @@ export default {
                 if(response.ok) {
                     response.json().then(data => {
                         this.project.resultDefinition = data
+                        this.project.resultPaths = this.getResultPaths(data)
                     })
                 } else {
                     this.handleUnknownResponse(response)
                 }
             })
+        },
+        getResultPaths(data){
+            var arr = []
+            for (const key in data) {
+                var x = data[key]
+                arr.push(`${x['path']}`)
+            }
+            return arr
         },
         /**
          * Connect to project room
@@ -436,7 +472,7 @@ export default {
                 this.current_tab = tab_name
             }
         }
-    },
+    },  
     computed: {
         /**
          * Returns the argument change event so it is usable in the template.
