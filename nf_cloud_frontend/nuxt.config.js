@@ -31,7 +31,8 @@ export default {
     "~/plugins/api_error_handling.js",
     "~/plugins/bootstrap_modal_control.client.js",
     "~/plugins/socket.io.client.js",
-    "~/plugins/vviewer.client.js"
+    "~/plugins/vviewer.client.js",
+    "~/plugins/plotly-full.js"
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -48,6 +49,15 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    extend (config, { isDev, isClient }) {
+
+      config.node= {
+         fs: 'empty',
+         child_process: "empty"
+       }
+
+      // ....
+   }
   },
 
   publicRuntimeConfig: {
