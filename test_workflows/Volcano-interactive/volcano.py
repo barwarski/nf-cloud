@@ -75,4 +75,4 @@ fig.update_layout({"plot_bgcolor": "rgba(0, 0, 0, 0)"})
 
 #fig.show()
 
-io.write_json(fig, output_path)
+io.write_json(fig, output_path+"volcano.json")

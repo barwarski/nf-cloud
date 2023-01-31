@@ -3,7 +3,7 @@ nextflow.enable.dsl=2
 
 rscript = '~/Code/nf-cloud/test_workflows/QC_and_normalization/Nextflow_MAIN_QC_script_quant_v1.R'
 params.folderpath = "~/Code/nf-cloud/test_workflows/QC_and_normalization/"
-params.data = "~/Code/nf-cloud/uploads/13/sSHT_proteinGroups_Intensities.xlsx" 
+params.Data = "~/Code/nf-cloud/uploads/2/sSHT_proteinGroups_Intensities.xlsx" 
 params.output = "~/Code/nf-cloud/results/QC_and_normalization/" 
 params.folderscript = "~/Code/nf-cloud/test_workflows/QC_and_normalization/Scripts/"
 params.intensityColumns = "5:54"
@@ -71,7 +71,7 @@ process QC_Workflow {
 }
 
 workflow{
-  QC_Workflow(rscript, params.folderpath, params.data, params.output, params.folderscript, params.intensityColumns, params.logData, params.normalization, params.useGroups, params.groupColours, params.groupvarName, params.plotDevice, params.dpi, params.maxMAPlot, params.validvalueHeight, params.validvalueWidth, params.boxplotHeight, params.boxplotWidth, params.pcaHeight, params.pcaWidth, params.maHeight, params.maWidth, params.xlimitsPCA, params.ylimitsPCA, params.sampleFilter, params.zeroToNA, params.logBase, params.resultTXT)
+  QC_Workflow(rscript, params.folderpath, params.Data, params.output, params.folderscript, params.intensityColumns, params.logData, params.normalization, params.useGroups, params.groupColours, params.groupvarName, params.plotDevice, params.dpi, params.maxMAPlot, params.validvalueHeight, params.validvalueWidth, params.boxplotHeight, params.boxplotWidth, params.pcaHeight, params.pcaWidth, params.maHeight, params.maWidth, params.xlimitsPCA, params.ylimitsPCA, params.sampleFilter, params.zeroToNA, params.logBase, params.resultTXT)
 }
 
 

@@ -60,6 +60,7 @@ use_groups = as.logical(args[8])
 ### named colours in R can be found here: http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf
 ### If you leave this as NULL, the default ggplot2 colours will be used.
 group_colours <- as.character(args[9])
+group_colours <- strsplit(group_colours, ",")
 
 ### Name of the group variable that will show up as the legend title in the Plots
 ### (e.g. "Treatment", "Group", "Condition", ...)
@@ -189,26 +190,26 @@ if (use_groups) {
 ################################################################################
 #### Valid values plots
 
-ValidValuePlot(X = D_long, groupvar_name = groupvar_name, sample_filter = sample_filter,
-               plot_device = plot_device, group_colours = group_colours,
-               plot_height = plot_height_validvalueplot, plot_width = plot_width_validvalueplot,
-               plot_dpi = plot_dpi, suffix = suffix, output_path = output_path)
+#ValidValuePlot(X = D_long, groupvar_name = groupvar_name, sample_filter = sample_filter,
+#               plot_device = plot_device, group_colours = group_colours,
+#               plot_height = plot_height_validvalueplot, plot_width = plot_width_validvalueplot,
+#              plot_dpi = plot_dpi, suffix = suffix, output_path = output_path)
 
 
 ################################################################################
 #### Boxplots and Violin Plots
 
-Boxplots(X = D_long, groupvar_name = groupvar_name, sample_filter = sample_filter,
-         plot_device = plot_device, group_colours = group_colours,
-         plot_height = plot_height_boxplots, plot_width = plot_width_boxplots,
-         plot_dpi = plot_dpi, log_data = FALSE, log_base = log_base,
-         suffix = suffix, method = "boxplot", output_path = output_path)
+#Boxplots(X = D_long, groupvar_name = groupvar_name, sample_filter = sample_filter,
+#         plot_device = plot_device, group_colours = group_colours,
+#         plot_height = plot_height_boxplots, plot_width = plot_width_boxplots,
+#         plot_dpi = plot_dpi, log_data = FALSE, log_base = log_base,
+#         suffix = suffix, method = "boxplot", output_path = output_path)
 
-Boxplots(X = D_long, groupvar_name = groupvar_name, sample_filter = sample_filter,
-         plot_device = plot_device, group_colours = group_colours,
-         plot_height = plot_height_boxplots, plot_width = plot_width_boxplots,
-         plot_dpi = plot_dpi, log_data = FALSE, log_base = log_base,
-         suffix = suffix, method = "violinplot", output_path = output_path)
+#Boxplots(X = D_long, groupvar_name = groupvar_name, sample_filter = sample_filter,
+#         plot_device = plot_device, group_colours = group_colours,
+#         plot_height = plot_height_boxplots, plot_width = plot_width_boxplots,
+#         plot_dpi = plot_dpi, log_data = FALSE, log_base = log_base,
+#         suffix = suffix, method = "violinplot", output_path = output_path)
 
 
 ################################################################################

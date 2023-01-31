@@ -1,9 +1,9 @@
 #!usr/bin/env nextflow
 nextflow.enable.dsl=2
 
-params.script = '/Users/awienbarwari/Desktop/volcano.py'
-params.dataPath = "/Users/awienbarwari/Desktop/result_ttest.xlsx"
-params.output = '/Users/awienbarwari/Desktop/volcano.json'
+params.script = '~/Code/nf-cloud/test_workflows/Volcano-interactive/volcano.py'
+params.dataPath = "result_ttest.xlsx"
+params.output = "~/Code/nf-cloud/results/Volcano-interactive/" 
 
 params.logBaseFC = 2
 params.logBaseP = 10
