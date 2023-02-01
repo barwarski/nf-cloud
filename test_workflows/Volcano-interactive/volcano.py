@@ -15,10 +15,10 @@ file_extension = file_path.suffix.lower()[1:]
 
 db = pd.read_excel(file_path, engine='openpyxl')
 
-log_base_fc = (sys.argv[2])#2
-log_base_p = int(sys.argv[3])#10
-thres_fc = float(sys.argv[4])#2
-thres_p = float(sys.argv[5])#0.05
+log_base_fc = (sys.argv[3])#2
+log_base_p = int(sys.argv[4])#10
+thres_fc = float(sys.argv[5])#2
+thres_p = float(sys.argv[6])#0.05
 
 if log_base_fc == 10:
     log_fc = np.log10(db["FC_HCC_divided_by_C"])
@@ -71,8 +71,13 @@ fig.add_vline(x=log_thres_fc,    line_color="grey", line_dash="dot")
 fig.add_vline(x=log_thres_fc*-1, line_color="grey", line_dash="dot")
 
 fig.update_xaxes(range=[x_axis*-1,x_axis])
-fig.update_layout({"plot_bgcolor": "rgba(0, 0, 0, 0)"})
+fig.update_layout({"plot_bgcolor": "rgba(0, 0, 0, 0)"} , title_text=f'thres_p { thres_p}, thres_fc {thres_fc}, log p {log_thres_p}, log fc {log_thres_fc}')
 
 #fig.show()
-
+test = {
+    "thres_p x" : (thres_p),
+    "thres_fc x": (thres_fc),
+    "log_thres_p": str(log_base_p),
+    "log_thres_fc": str(log_base_fc)}
+#io.write_json(test, output_path+"volcano.json")
 io.write_json(fig, output_path+"volcano.json")
