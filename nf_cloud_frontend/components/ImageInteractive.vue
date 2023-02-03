@@ -2,14 +2,13 @@
     <div>
         <h3> {{ plottype }} </h3>
         <div id="plot"></div>
-        <p>  Bildunterschrift </p>
-    </div>
-    
+        <p>  {{ caption }} </p>
+    </div>   
 </template>
 
 <script>
 export default {
-    props: ["plottype", "filepath", "projectId"],
+    props: ["plottype", "filepath", "projectId", "caption", "caption"],
     mounted(){
         var plotData = ("http://localhost:3001/api/projects/"+ String(this.projectId) +"/download-without-login?path="+ String(this.filepath))
         fetch(plotData)

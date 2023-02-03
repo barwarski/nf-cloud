@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div >
         <h3>  {{ plottype }}: </h3>   
-        <ImageViewer :imagepath="filepath" :isPDF="getExtension(filepath)" :isSingle="false" :projectId="projectId"></ImageViewer>
+        <ImageViewer :imagepath="filepath" :isPDF="getExtension(filepath)" :isSingle="false" :projectId="projectId" :caption="caption"></ImageViewer>
     </div>
 </template>
 
@@ -9,7 +9,7 @@
 import ImageViewer from './ImageViewer.vue';
 
 export default {
-    props: ["plottype", "filepath", "projectId"],
+    props: ["plottype", "filepath", "projectId", "caption"],
     methods:{
         getExtension(filename) {
             var parts = filename[0].split('.');

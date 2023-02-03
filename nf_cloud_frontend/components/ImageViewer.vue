@@ -1,12 +1,9 @@
 <template>
     <div>
       <div v-if="isPDF != 'pdf'" class="images" v-viewer="{movable: false}">
-        <img  v-for="src in imagepath" :src="src" :key="src" height="250" width="33%">
+          <img v-for="src in imagepath" :src="('http://localhost:3001/api/projects/'+projectId+'/download-without-login?path='+src+'&is-inline=1')" :key="src" height="400" width="50%">
+          <p> {{ caption }}</p>
       </div>
-      <div v-if="isPDF == 'pdf'" class="images" v-viewer="{movable: false}">
-        <img v-if="isSingle" :src="convertToBase64andBack(imagepath, projectId)" height="250" width="33%">
-      </div>
-      <p> Filetype {{ isPDF }}</p>
     </div>
   </template>
   <script>
@@ -22,12 +19,13 @@
             computedPaths: "x"
         }
       },
-      props: ['imagepath', 'isPDF', 'isSingle', 'projectId', 'backendServerUrl'],
+      props: ['imagepath', 'isPDF', 'isSingle', 'projectId', 'backendServerUrl', "caption"],
       directives: {
         viewer: viewer({
           debug: true,
         }),
-      },
+      }
+      ,
       methods: {
         show () {
           const viewer = this.$el.querySelector('.images').$viewer
@@ -56,6 +54,11 @@
             })
             fetch()
             return "http://localhost:3001/api/projects/" + projectId + "/download-without-login?path=" + src
+        }
+      },
+      computed:{
+        computedPaths: function(srrc){
+          return(`http://localhost:3001/api/projects/${projectId}/download-without-login?path=${srrc}`)
         }
       },
       components:{ VuePdfEmbed }
