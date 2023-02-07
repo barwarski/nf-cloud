@@ -111,26 +111,19 @@
                             </button>
                         </div>
                         <div :class="{active: current_tab == tabs.result}" class="tab-pane" role="tabpanel">
-                            <div>
-                                <ImageInteractiveVue :plottype="Test" :filepath="nine" :projectId="project.id"></ImageInteractiveVue>
-                            </div>
-                            <template v-for="value,name in this.project.resultDefinition">
+                            <template v-for="value,name in this.project.resultDefinition">    
                                 <div :key="name">
-                                <ImageGallery      v-if="value['type'] == 'image-gallery'"      :plottype="name" :filepath="value['path']" :projectId="project.id"></ImageGallery>
-                                <ImageSingle       v-if="value['type'] == 'image'"              :plottype="name" :filepath="value['path']" :projectId="project.id"></ImageSingle>
-                                <ImageInteractive  v-if="value['type'] == 'interactive-plot'"  :plottype="name" :filepath="value['path']" :projectId="project.id"></ImageInteractive>
+                                    <ImageGallery      v-if="value['type'] == 'image-gallery'"      :caption="name" :filepath="value['path']" :projectId="project.id" :description="value['description']"></ImageGallery>
+                                    <ImageSingle       v-if="value['type'] == 'image'"              :caption="name" :filepath="value['path']" :projectId="project.id" :description="value['description']"></ImageSingle>
+                                    <ImageInteractive  v-if="value['type'] == 'interactive-plot'"   :caption="name" :filepath="value['path']" :projectId="project.id" :description="value['description']"></ImageInteractive>
+                                    <PDFSingle         v-if="value['type'] == 'pdf-single'"         :caption="name" :filepath="value['path']" :projectId="project.id" :description="value['description']"></PDFSingle>
+                                    <SVGSingle         v-if="value['type'] == 'svg-single'"         :caption="name" :filepath="value['path']" :projectId="project.id" :description="value['description']"></SVGSingle>
                                 </div>
                             </template>
                         </div>
                     </div> 
                 </div>
                 <!-- tabs ende--> 
-            </div>
-            <div class="row">
-                <div class="col">
-                    <!--<img src="http://localhost:3001/api/projects/7/download-without-login?path=test.png" width="100" height="100"></img>
-                    <img src="http://localhost:3001/api/projects/3/download-without-login?path=PCA_plot_nonorm_imputed_labelled.pdf"></img>-->
-                </div>
             </div>
             <h2>Files</h2>
             <EditableFileBrowser 
@@ -181,6 +174,8 @@ import {readFileSync} from 'fs';
 import {convert} from 'imagemagick-convert';
 import postscribe from 'postscribe'
 import ImageInteractive from "../../../components/ImageInteractive.vue";
+import PDFSingle from "../../../components/PDFSingle.vue";
+import SVGSingle from '../../../components/SVGSingle.vue';
 
 const RELOAD_WORKFLOW_FILES_EVENT = "RELOAD_WORKFLOW_FILES"
 const DELETE_CONFIRMATION_DIALOG_ID = "delete_confirmation_dialog"
@@ -196,7 +191,7 @@ const TABS = {
 }
 
 export default {
-  components: { ImageGallery, ImageSingle, ImageInteractive },
+  components: { ImageGallery, ImageSingle, ImageInteractive, PDFSingle, SVGSingle, SVGSingle },
     data(){
         return {
             project: null,
@@ -211,7 +206,7 @@ export default {
              * Event bus for communication with child components.
              */
             local_event_bus: new Vue(),
-            logs: [],
+            logs: []
         }
     },
     mounted(){
