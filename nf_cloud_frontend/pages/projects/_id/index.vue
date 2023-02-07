@@ -46,25 +46,15 @@
                     <div class="progress-bar bg-success" role="progressbar" :style="progress_bar_style"></div>
                 </div>
             </div>
-            <h2>Workflow</h2>
-            <div class="dropdown mb-3">
-                <button :class="{show: show_workflow_dropdown}" :aria_expanded="show_workflow_dropdown" @click="toggleWorkflowDropdown" class="btn btn-primary" type="button" id="workflows-dropdown" data-bs-toggle="dropdown">
-                    <span v-if="project.workflow">{{project.workflow}}</span>
-                    <span v-else>Select a project...</span>
-                    <i :class="{'fa-caret-down': !show_workflow_dropdown, 'fa-caret-up': show_workflow_dropdown}" class="fas ms-2"></i>
-                </button>
-                <ul :class="{show: show_workflow_dropdown}" class="dropdown-menu" aria-labelledby="workflows-dropdown">
-                    <li v-for="nf_project in workflows" :key="nf_project" :value="nf_project">
-                        <button @click="setWorkflow(nf_project); toggleWorkflowDropdown();" type="button" class="btn btn-link text-decoration-none text-body">
-                            {{nf_project}}
-                        </button>
-                    </li>
-                </ul>
                 <!-- tabs anfang--> 
                 <div>
                     <ul class="nav nav-tabs mt-3">
                         <li class="nav-item">
                         <!--<button class="nav-link active" id="parameters-tab" role="tab" type="button" data-bs-toggle="tab" data-bs-target="#parameters" aria-controls="parameters" aria-selected="true">Workflow parameters</button>-->
+                        <a @click.prevent="switchToTab(tabs.files)" :class="{'active': current_tab == tabs.files}" class="nav-link" aria-current="page" href="#">Files</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                        <!--<button class="nav-link" id="results-tab" role="tab" type="button" data-bs-toggle="tab" data-bs-target="#results" aria-controls="results" aria-selected="false">Result</button>-->
                         <a @click.prevent="switchToTab(tabs.workflow)" :class="{'active': current_tab == tabs.workflow}" class="nav-link" aria-current="page" href="#">Parameters</a>
                         </li>
                         <li class="nav-item" role="presentation">
@@ -73,8 +63,29 @@
                         </li>
                     </ul>
                     <div class="tab-content">
+                        <div :class="{active: current_tab == tabs.files}" class="tab-pane" role="tabpanel">
+                            <h2>Files</h2>
+                            <EditableFileBrowser 
+                                :project_id="project.id"
+                                :parent_event_bus="local_event_bus"
+                                :reload_event="this.reload_project_files_event"
+                            ></EditableFileBrowser>
+                        </div>
                         <div :class="{active: current_tab == tabs.workflow}" class="tab-pane" role="tabpanel">
                             <h2 class="mb-0">Workflow parameters</h2>
+                            <div class="dropdown mb-3">
+                                <button :class="{show: show_workflow_dropdown}" :aria_expanded="show_workflow_dropdown" @click="toggleWorkflowDropdown" class="btn btn-primary" type="button" id="workflows-dropdown" data-bs-toggle="dropdown">
+                                    <span v-if="project.workflow">{{project.workflow}}</span>
+                                    <span v-else>Select a project...</span>
+                                    <i :class="{'fa-caret-down': !show_workflow_dropdown, 'fa-caret-up': show_workflow_dropdown}" class="fas ms-2"></i>
+                                </button>
+                                <ul :class="{show: show_workflow_dropdown}" class="dropdown-menu" aria-labelledby="workflows-dropdown">
+                                    <li v-for="nf_project in workflows" :key="nf_project" :value="nf_project">
+                                        <button @click="setWorkflow(nf_project); toggleWorkflowDropdown();" type="button" class="btn btn-link text-decoration-none text-body">
+                                            {{nf_project}}
+                                        </button>
+                                    </li>
+                                </ul>
                             <template v-for="(argument_value, argument_name) in project.workflow_arguments">
                                 <div :key="argument_name">
                                     <PathSelector 
@@ -110,6 +121,7 @@
                                 save
                             </button>
                         </div>
+                        </div>
                         <div :class="{active: current_tab == tabs.result}" class="tab-pane" role="tabpanel">
                             <template v-for="value,name in this.project.resultDefinition">    
                                 <div :key="name">
@@ -121,16 +133,10 @@
                                 </div>
                             </template>
                         </div>
-                    </div> 
+                     
                 </div>
                 <!-- tabs ende--> 
             </div>
-            <h2>Files</h2>
-            <EditableFileBrowser 
-                :project_id="project.id"
-                :parent_event_bus="local_event_bus"
-                :reload_event="this.reload_project_files_event"
-            ></EditableFileBrowser>
         </div>
         <div v-if="!project && project_not_found">
             Project not found
@@ -186,6 +192,7 @@ const START_WORKFLOW_CONFIRMATION_DIALOG_ID = "start_workflow_confirmation_dialo
 const ARGUMENT_CHANGED_EVENT = "ARGUMENT_CHANGED"
 
 const TABS = {
+    files: "Files",
     workflow:"workflow",
     result:"result"
 }
