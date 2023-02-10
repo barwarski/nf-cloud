@@ -125,11 +125,12 @@
                         <div :class="{active: current_tab == tabs.result}" class="tab-pane" role="tabpanel">
                             <template v-for="value,name in this.project.resultDefinition">    
                                 <div :key="name">
-                                    <ImageGallery      v-if="value['type'] == 'image-gallery'"      :caption="name" :filepath="value['path']" :projectId="project.id" :description="value['description']"></ImageGallery>
-                                    <ImageSingle       v-if="value['type'] == 'image'"              :caption="name" :filepath="value['path']" :projectId="project.id" :description="value['description']"></ImageSingle>
-                                    <ImageInteractive  v-if="value['type'] == 'interactive-plot'"   :caption="name" :filepath="value['path']" :projectId="project.id" :description="value['description']"></ImageInteractive>
-                                    <PDFSingle         v-if="value['type'] == 'pdf-single'"         :caption="name" :filepath="value['path']" :projectId="project.id" :description="value['description']"></PDFSingle>
-                                    <SVGSingle         v-if="value['type'] == 'svg-single'"         :caption="name" :filepath="value['path']" :projectId="project.id" :description="value['description']"></SVGSingle>
+                                    <ImageGallery                     v-if="value['type'] == 'image-gallery'"      :caption="name" :filepath="value['path']" :projectId="project.id" :description="value['description']"></ImageGallery>
+                                    <ImageSingle                      v-if="value['type'] == 'image'"              :caption="name" :filepath="value['path']" :projectId="project.id" :description="value['description']"></ImageSingle>
+                                    <ImageInteractive                 v-if="value['type'] == 'interactive-plot'"   :caption="name" :filepath="value['path']" :projectId="project.id" :description="value['description']"></ImageInteractive>
+                                    <ImageInteractiveGroupColorChange v-if="value['type'] == 'interactive-plot-color-input'"   :caption="name" :filepath="value['path']" :projectId="project.id" :description="value['description']"></ImageInteractiveGroupColorChange>
+                                    <PDFSingle                        v-if="value['type'] == 'pdf-single'"         :caption="name" :filepath="value['path']" :projectId="project.id" :description="value['description']"></PDFSingle>
+                                    <SVGSingle                        v-if="value['type'] == 'svg-single'"         :caption="name" :filepath="value['path']" :projectId="project.id" :description="value['description']"></SVGSingle>
                                 </div>
                             </template>
                         </div>
@@ -182,6 +183,7 @@ import postscribe from 'postscribe'
 import ImageInteractive from "../../../components/ImageInteractive.vue";
 import PDFSingle from "../../../components/PDFSingle.vue";
 import SVGSingle from '../../../components/SVGSingle.vue';
+import ImageInteractiveGroupColorChange from "../../../components/ImageInteractiveGroupColorChange.vue";
 
 const RELOAD_WORKFLOW_FILES_EVENT = "RELOAD_WORKFLOW_FILES"
 const DELETE_CONFIRMATION_DIALOG_ID = "delete_confirmation_dialog"
@@ -198,7 +200,7 @@ const TABS = {
 }
 
 export default {
-  components: { ImageGallery, ImageSingle, ImageInteractive, PDFSingle, SVGSingle, SVGSingle },
+  components: { ImageGallery, ImageSingle, ImageInteractive, PDFSingle, SVGSingle, SVGSingle, ImageInteractiveGroupColorChange },
     data(){
         return {
             project: null,
