@@ -1,5 +1,9 @@
 {
   "dependencies": {
-    "playhouse": "^3.0.0"
+    "imagemagick-convert": "^1.0.3",
+    "playhouse": "^3.0.0",
+    "plotly.js-dist": "^2.17.1",
+    "postscribe": "^2.0.8",
+    "vue-pdf-embed": "^1.1.5"
   }
 }

@@ -7,7 +7,7 @@
                         <label > {{ group }}</label>
                         <select :id=group @change="updateColor(group)">
                             <option>#000000</option>
-                            <option> #B3C4DE</option>
+                            <option>#D3D3D3</option>
                             <option>#20B2AA</option>
                             <option>#FF0000</option>
                             <option>#00FF00</option>
@@ -48,7 +48,7 @@ export default {
                 this.$plotly.newPlot("plot", datas.data, datas.layout)
                 this.plotData = datas
                 this.groupNumber =  Object.keys(this.plotData.data).length
-                this.groupNames = this.getGroupNames(this.plotData)//this.plotData.data[1].legendgroup
+                this.groupNames = this.getGroupNames(this.plotData)
             });
     },
     methods:{

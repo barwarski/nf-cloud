@@ -2,7 +2,7 @@
 ## X: Data in long format
 
 ValidValuePlot <- function(X, groupvar_name = "Group", sample_filter=NULL,
-                           suffix = "nonorm", plot_device = "pdf",
+                           suffix = "nonorm", plot_device = "png",
                            group_colours = NULL, plot_height = 10,
                            plot_width = 15, plot_dpi = 300, ylim = NULL, title = NULL,
                            output_path = "",  ...){
@@ -43,7 +43,9 @@ ValidValuePlot <- function(X, groupvar_name = "Group", sample_filter=NULL,
   if (!is.null(ylim)) pl_valid_values <- pl_valid_values + ylim(ylim)
   if (!is.null(title)) pl_valid_values <- pl_valid_values + ggtitle(title)
 
-  ggsave(paste0(output_path,"Validvalue_plot.",plot_device),
+  pl_valid_values
+
+  ggsave(paste0(output_path, "Validvalue_plot.png"),
          plot = pl_valid_values, device = plot_device,
          height = plot_height, width = plot_width, dpi = plot_dpi)
 
@@ -64,8 +66,10 @@ ValidValuePlot <- function(X, groupvar_name = "Group", sample_filter=NULL,
 
   if (!is.null(title)) pl_valid_values <- pl_valid_values + ggtitle(title)
 
-  ggsave(paste0(output_path, "Validvalues_percentage_plot.",plot_device),
-         device = plot_device,height = plot_height,width = plot_width,
+  pl_valid_values_rel
+
+  ggsave(paste0(output_path, "Validvalues_percentage_plot.png"),
+         device = "png",height = plot_height,width = plot_width,
          plot = pl_valid_values_rel, dpi = plot_dpi)
 
   return(list(pl_valid_values = pl_valid_values, pl_valid_values_rel = pl_valid_values_rel))

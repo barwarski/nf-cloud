@@ -2,7 +2,7 @@
 ## X: Data in long format
 
 Boxplots <- function(X, groupvar_name = "Group", sample_filter = NULL,
-                     plot_device = "pdf", suffix = "nonorm",
+                     plot_device = "png", suffix = "nonorm",
                      plot_height = 10, plot_width = 15, plot_dpi = 300,
                      log_data = FALSE, log_base = 2, group_colours = NULL,
                      method = "boxplot", base_size = 20, output_path = ""){
@@ -21,7 +21,7 @@ Boxplots <- function(X, groupvar_name = "Group", sample_filter = NULL,
 
   ## filtering of samples
   if (!is.null(sample_filter)) {
-  X <- X %>% dplyr::filter(name %in% sample_filter)
+  X <- X %>% filter(name %in% sample_filter)
   }
 
   if (use_groups) {
@@ -40,6 +40,7 @@ Boxplots <- function(X, groupvar_name = "Group", sample_filter = NULL,
 
   if (method != "boxplot"){
     pl_boxplot <- pl_boxplot + geom_violin()
+    
   }else{
     pl_boxplot <- pl_boxplot + geom_boxplot()
   }
