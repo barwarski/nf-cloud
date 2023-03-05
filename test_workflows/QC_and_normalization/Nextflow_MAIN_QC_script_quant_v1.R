@@ -104,7 +104,7 @@ if(plot_ylim_PCA == 0){plot_ylim_PCA <- NULL}
 ### If you leave this as NULL, all samples will be plotted.
 ### This will currently be used for the boxplots and Valid values plots ONLY!
 sample_filter <- as.character(args[24])#eval(parse(text=args[24]))
-if(sample_filter == "x"){sample_filter <- NULL}
+if(length(sample_filter) < 2){sample_filter <- NULL}
 
 ### Set symbols, that should be recognized as a missing value (do not include "0", this will be treated by zero_to_NA)
 na_strings = c("NA", "NaN", "Filtered","#NV")
