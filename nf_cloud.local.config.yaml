@@ -1,0 +1,290 @@
+# Interface to use (0.0.0.0 = all interfaces)
+interface: 0.0.0.0
+# Port to use
+port: 3001
+# Set to true if you use a reverse proxy
+use_reverse_proxy: false
+# An arbitrary ascii string to sign sessions etc. Make sure to back it up!
+secret: "development"
+# Debug outputs
+debug: true
+# Path to put working directories
+upload_path: "./uploads"
+# Database
+database:
+  # Database url: 
+  url: postgresql://postgres:developer@127.0.0.1:5434/nf_cloud
+  # Number of connections
+  pool_size: 1
+matomo:
+  enabled: false
+  url: ""
+  site_id: 1
+  auth_token: ""
+rabbit_mq:
+  # RabbitMQ url. Make sure to encode the virtual host: https://pika.readthedocs.io/en/stable/modules/parameters.html#pika.connection.URLParameters
+  url: "amqp://admin:developer@127.0.0.1:5674/%2f"
+  # Queue for scheduled projects
+  project_workflow_queue: project_workflow
+# Basic auth for worker
+worker_credentials:
+  username: "worker"
+  password: "developer"
+login_providers:    # Will be completely overridden by local config
+  openid:
+    dev:
+        description: Login with local Fusionauth
+        client_id: c63f35e8-66dc-4ec3-bb34-b29803ba72f1
+        client_secret: 8CLrA9gAVmlM7GKKCnMnT9MHNvUMqXNVWog2kWUuC7Y2iBOnFIh9X0rpCqfMcpfQkEZfCBfxMqfz5FYC6cduB20kxqV5Ysq
+        discovery_url: http://localhost:9011/.well-known/openid-configuration/04690b25-d20a-158d-5b27-a4202477074b
+        scope: "offline_access"
+        verify_ssl: false
+    # E.g.
+    # google:
+    #   description: Login with Google
+    #   client_id: xyz
+    #   client_secret: abc
+    #   client_discovery_url: https://...
+    #   # Optional, may be given by provider
+    #   scope: ~
+# Redirect after successful login. Can be null (~) when frontend and backend using the same domain and port
+frontend_host_url: http://localhost:5001
+workflows:          # Will be completely overridden by local config
+  "Hello World (Locally)":
+    directory: ./test_workflows/hello_world
+    script: "main.nf"
+    args:
+      dynamic:
+        inFile:
+          type: path
+          desc: Single file
+          selectable_files: true
+          selectable_folders: false
+        inFolder:
+          type: path
+          desc: Single folder
+          selectable_files: false
+          selectable_folders: true
+        inFiles:
+          type: paths
+          desc: Multiple files
+          selectable_files: true
+          selectable_folders: false
+        inFolders:
+          type: paths
+          desc: Multiple folder
+          selectable_files: false
+          selectable_folders: true
+        txtFiles:
+          type: file-glob
+          desc: File "regex", e.g. *.txt
+        numberOfNewlines:
+          type: number
+          desc: Number input 
+        singleLineText:
+          type: text
+          desc: Single line text
+        multilineText:
+          type: text
+          desc: Multiline text
+          is_multiline: true
+      static:
+        outDir:
+          type: text
+          value: ./
+  "Hello World (Docker)":
+    directory: ./test_workflows/hello_world
+    script: "main.nf"
+    nextflow_parameters:
+      - "-with-docker"
+      - "nfcore/base"
+    args:
+      dynamic:
+        inFile:
+          type: path
+          desc: Single file
+          selectable_files: true
+          selectable_folders: false
+        inFolder:
+          type: path
+          desc: Single folder
+          selectable_files: false
+          selectable_folders: true
+        inFiles:
+          type: paths
+          desc: Multiple files
+          selectable_files: true
+          selectable_folders: false
+        inFolders:
+          type: paths
+          desc: Multiple folder
+          selectable_files: false
+          selectable_folders: true
+        txtFiles:
+          type: file-glob
+          desc: File "regex", e.g. *.txt
+        numberOfNewlines:
+          type: number
+          desc: Number input 
+        singleLineText:
+          type: text
+          desc: Single line text
+        multilineText:
+          type: text
+          desc: Multiline text
+          is_multiline: true
+      static:
+        outDir:
+          type: text
+          value: ./
+  "QC_and_normalization":
+    directory: ./test_workflows/QC_and_normalization
+    script: "main.nf"
+    nextflow_parameters: []
+    args:
+      dynamic:
+        Data:
+          type: path
+          desc: Single file
+          selectable_files: true
+          selectable_folders: false
+        intensityColumns:
+          type: text
+          value: "5:54"
+          desc: e.g. 5:54 or 1,5,6
+        logData:
+          type: text
+          value: "true"
+          desc: true = log data, false = no log data
+        logBase:
+          type: number
+          value: 2
+          desc: default = 2 logarithm to the base if wanted
+        normalization:
+          type: text
+          value: nonorm
+          desc: nonorm, loess, quantil, median
+        useGroups:
+          type: text
+          value: "true"
+          desc: true or false
+        groupColours:
+          type: text
+          value: "null"
+          desc: e.g. for 2 groups with 2 different colours= red,blue
+        groupvarName:
+          type: text
+          value: Group
+          desc: column name
+        dpi:
+          type: number
+          value: 300
+        maxMAPlots:
+          type: number
+          value: 500
+          desc: number of maximal MAPlots you want to plot
+        validValueHeight:
+          type: number
+          value: 10
+        validValueWidth:
+          type: number
+          value: 15
+        boxplotHeight:
+          type: number
+          value: 10
+        boxplotWidth:
+          type: number
+          value: 15
+        pcaHeight:
+          type: number
+          value: 15
+        pcaWidth:
+          type: number
+          value: 20
+        maHeight:
+          type: number
+          value: 15
+        maWidth:
+          type: number
+          value: 15
+        xLimitsPCA:
+          type: number
+          value: 0
+          desc: default = NULL, specity x-axis limit
+        yLimitsPCA:
+          type: number
+          value: 0
+          desc: default = NULL, specity y-axis limit
+        sampleFilter:
+          type: text
+          value: none
+          desc: default = none, filter after sample names
+        zeroToNA:
+          type: text
+          value: "true"
+          desc: true or false        
+      static:
+        output:
+          type: path
+          value: results/
+    results:
+      "MA Plots":
+        type: pdf-single
+        path: "resultsMA_Plots.pdf"
+        description: "MA Plots"
+      "Boxplot vs. Violinplot":
+        type: image-gallery
+        path:
+          - "resultsboxplot.png"
+          - "resultsviolinplot.png"
+        description: "Boxplot & Violinplot"
+      "PCA labelled Mix":
+        type: image-gallery
+        path:
+          - "resultsPCA_plot.png"
+          - "resultsPCA_plot_labelled.png"
+          ###- "resultsPCA_plot_imputed_labelled.png"
+        description: PCA Plot, PCA Plot Labelled and PCA Plot Imputed Labelled"
+      "Peptides Overview":
+        type: image-gallery
+        path:
+          - "resultsValidvalue_plot.png"
+          - "resultsValidvalues_percentage_plot.png"
+        description: "Right: Valid Value Left: Valid Value Percentage"
+      "SVG Example":
+        type: svg-single
+        path: "example.svg"
+        description: "Example for svg images"
+  "Interactive Plots":
+    directory: ./test_workflows/Volcano-interactive
+    script: "main.nf"
+    nextflow_parameters: []
+    args:
+      dynamic:
+        dataPath:
+          type: path
+          desc: Single file
+          selectable_files: true
+          selectable_folders: false
+        logBaseFC:
+          type: number
+          value: 2
+        logBaseP:
+          type: number
+          value: 10
+        thresFC:
+          type: number
+          value: 4
+        thresP:
+          type: number
+          value: 0.5
+      static:
+        output:
+          type: path
+          value: results/
+    results: 
+      "Volcano":
+        type: "interactive-plot"
+        path: "resultsvolcano.json"
+        description: "Interactive Volcano Plot"
+  
