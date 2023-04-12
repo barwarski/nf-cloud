@@ -287,4 +287,63 @@ workflows:          # Will be completely overridden by local config
         type: "interactive-plot"
         path: "resultsvolcano.json"
         description: "Interactive Volcano Plot"
+  "QC_Quant Interactive":
+    directory: ./test_workflows/QC_Quant
+    script: "main.nf"
+    nextflow_parameters: []
+    args:
+      dynamic:
+        data_path:
+          type: path
+          desc: Single file
+          selectable_files: true
+          selectable_folders: false
+        intensity_columns:
+          type: text
+          value: "5:54"
+          desc: e.g. 5:54 or 1,5,6
+        log_data:
+          type: text
+          value: "true"
+        normalization:
+          type: text
+          value: nonorm
+          desc: nonorm, loess, quantil, median
+        use_groups:
+          type: text
+          value: "true"
+          desc: true or false
+        maxMAPlot:
+          type: number
+          value: 700
+        PCA_labelled:
+          type: text
+          value: false
+      static:
+        output:
+          type: path
+          value: results/
+    results: 
+      "Valid Value":
+        type: "interactive-plot"
+        path: "resultsValidValue.json"
+        description: "Interactive Boxplot Plot"
+      "Boxplot":
+        type: "interactive-plot"
+        path: "resultsBoxplot.json"
+        description: "Interactive Boxplot Plot"
+      "PCA":
+        type: "interactive-plot"
+        path: "resultsPCA.json"
+        description: "Interactive Boxplot Plot"
+      "MA Plots":
+        type: pdf-single
+        path: "resultsMA_Plots.pdf"
+        description: "MA Plots"
+      "Histogram":
+        type: pdf-single
+        path: "resultshistograms.pdf"
+        description: "Histo"
+      
+
   
